@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function App (): JSX.Element {
   return (
-    <div>rgtrgrtgrt</div>
+    <div>rgtrgrggtttgrt</div>
   )
 }

@@ -22,7 +22,7 @@
     "noImplicitAny": true
   },
   "include": [
-    "./declaration.d.ts",
+    "./src/declaration.d.ts",
     "src",
     "tailwind.config.js"
   ]

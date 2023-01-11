@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function App (): JSX.Element {
   return (
-    <div>rgtrgrggtttgrt</div>
+    <div>Im the best</div>
   )
 }

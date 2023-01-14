@@ -28,7 +28,6 @@ function Layout () {
         <footer className="flex-[0_0_auto] pb-5">
           <div className="container justify-center flex gap-5 items-center">
             <a href="https://github.com/drugbeast"><img src={githubIcon} alt="githubIcon" className="w-[35px]"></img></a>
-            <a href="https://github.com/zelenevskayamarina"><img src={githubIcon} alt="githubIcon" className="w-[35px]"></img></a>
             <a href="https://rs.school/js/"><img src={courseLogo} alt="courseLogo" className="w-[80px]"></img></a>
             <span className='text-indigo-400 font-semibold'>2022-2023</span>
           </div>

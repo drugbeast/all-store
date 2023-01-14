@@ -2,7 +2,7 @@ import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import NotFound from './routes/NotFound'
 import Layout from './components/Layout'
-import Products from './routes/Products'
+import List from './routes/List'
 
 function App () {
   const router = createBrowserRouter([
@@ -16,7 +16,7 @@ function App () {
         },
         {
           path: '/',
-          element: <Products />
+          element: <List />
         }
       ]
     }

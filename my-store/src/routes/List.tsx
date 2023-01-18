@@ -14,7 +14,6 @@ import Product from "../components/Product";
 import Search from "../components/Search";
 import Sorts from "../components/Sorts";
 import Filters from "../components/Filters";
-import { SORTS, FILTERS } from "../filtersNSorts";
 
 function List() {
   const dispatch = useDispatch();

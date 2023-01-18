@@ -1,15 +1,14 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { logo, cart, courseLogo, githubIcon } from "../images";
 import { addSearchValue } from "../store/productsSlice";
 
 function Layout() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleClick = () => {
     dispatch(addSearchValue(``));
-    window.location.reload()
+    window.location.reload();
   };
   return (
     <div className="flex flex-col min-h-screen font-montserrat">

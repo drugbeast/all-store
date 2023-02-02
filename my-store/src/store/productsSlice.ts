@@ -5,6 +5,7 @@ const productSlice = createSlice({
   name: "products",
   initialState: {
     products: [] as IProduct[],
+    sortedNFilteredProds: [] as IProduct[],
     searchValue: "",
     searchQuantity: 0,
   },
@@ -13,6 +14,10 @@ const productSlice = createSlice({
       const prod: IProduct[] = action.payload;
       state.products = prod;
     },
+    addFiltered(state, action) {
+      const prod: IProduct[] = action.payload;
+      state.sortedNFilteredProds = prod;
+    },
     addSearchValue(state, action) {
       state.searchValue = action.payload;
     },
@@ -20,17 +25,18 @@ const productSlice = createSlice({
       state.searchQuantity = action.payload;
     },
     setQueryString(state, action) {
-      console.log(action.payload);
-      state.searchValue = action.payload;
+      const str: string = action.payload;
+      state.searchValue = str;
     },
   },
 });
 
 export const {
   addProducts,
+  addFiltered,
   addSearchValue,
   addSearchQuantity,
-  setQueryString,
+  setQueryString
 } = productSlice.actions;
 
 export default productSlice.reducer;

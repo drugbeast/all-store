@@ -1,22 +1,45 @@
 import React from "react";
 import qs from "qs";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addSearchValue } from "../store/productsSlice";
 import { useNavigate } from "react-router-dom";
+import { RootState } from "../store";
 
-function Search() {
+function Search () {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [value, setValue] = useState("");
+  const params = qs.parse(window.location.search.substring(1));
+  const searchValue = useSelector(
+    (state: RootState) => state.products.searchValue
+  );
+  const [value, setValue] = useState(
+    params.search ? String(params.search) : searchValue
+  );
+  const sortName = useSelector(
+    (state: RootState) => state.filtersNSorts.sortName
+  );
+
   const handleSetValue = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.currentTarget.value);
   };
+
   const handleClick = () => {
     dispatch(addSearchValue(value));
-    if (value !== "") {
+    if (value !== "" && !sortName) {
       const params = qs.stringify({
         search: value,
+      });
+      navigate(`?${params}`);
+    } else if (value !== "" && sortName !== "") {
+      const params = qs.stringify({
+        search: value,
+        sort: sortName,
+      });
+      navigate(`?${params}`);
+    } else if (!value && sortName !== "") {
+      const params = qs.stringify({
+        sort: sortName,
       });
       navigate(`?${params}`);
     } else {
@@ -30,6 +53,7 @@ function Search() {
         placeholder="Please, write something..."
         className="w-[90%] outline outline-[1.5px] rounded-md p-1.5 outline-indigo-400 shadow-md pl-4"
         onChange={handleSetValue}
+        id="searchInput"
       />
       <button
         type="submit"

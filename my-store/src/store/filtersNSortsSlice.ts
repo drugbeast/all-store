@@ -3,12 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const filtersNSorts = createSlice({
   name: "filtersNSorts",
   initialState: {
-    Sort: {},
+    sortName: "",
   },
   reducers: {
     addSort(state, action) {
-      console.log(state);
-      console.log(action);
+      state.sortName = action.payload;
     },
   },
 });

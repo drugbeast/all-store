@@ -1,149 +1,76 @@
 import React from "react";
-import ReactSlider from "react-slider";
-import { useState } from "react";
 import "./Filters.css";
+import DoubleSlider from "./DoubleSlider";
+import Categories from "./Categories";
+import CopyNReset from "./CopyNReset";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
+import { IProduct } from "../interfaces";
+
+function countAmount(set: Set<string>, products: IProduct[], checker: string) {
+  const categoriesAmounts: number[] = [];
+  const countArr = Array.from(set);
+
+  countArr.map((item) => {
+    let c = 0;
+    const check = item;
+    products.map((inner) => {
+      const myArr = Object.entries(inner).flat( )
+      const index = myArr.indexOf(checker)
+      if (myArr[index + 1] == check) c++;
+    });
+    categoriesAmounts.push(c);
+  });
+
+  return categoriesAmounts;
+}
 
 function Filters() {
-  const [min, setMin] = useState(0);
-  const [max, setMax] = useState(100);
-  const arr = [];
-  for (let i = 0; i < 20; i++) {
-    arr[i] = "Smartphones";
+  const prods = useSelector((state: RootState) => state.products.products);
+
+  const minStock = prods.reduce((acc, curr) =>
+    acc.stock < curr.stock ? acc : curr
+  );
+  const maxStock = prods.reduce((acc, curr) =>
+    acc.stock > curr.stock ? acc : curr
+  );
+  const maxPrice = prods.reduce((acc, curr) =>
+    acc.price > curr.price ? acc : curr
+  );
+  const minPrice = prods.reduce((acc, curr) =>
+    acc.price < curr.price ? acc : curr
+  );
+
+  const categories = new Set<string>();
+  const brands = new Set<string>();
+
+  for (const item of prods) {
+    if (!categories.has(item.category)) categories.add(item.category);
+    if (!brands.has(item.brand)) brands.add(item.brand);
   }
+
+  const brandsAmounts: number[] = countAmount(brands, prods, "brand");
+  const categoriesAmounts: number[] = countAmount(categories, prods, "category");
+
   return (
     <div className="flex flex-col pr-8">
-      <div className="flex justify-center items-center gap-6">
-        <button className="outline outline-1 py-2 px-2.5 rounded-md bg-indigo-400 text-[#ffffff] shadow-md outline-none hover:shadow-4xl ease-in transition-shadow">
-          Reset filters
-        </button>
-        <button className="outline outline-1 py-2 px-2.5 rounded-md bg-indigo-400 text-[#ffffff] shadow-md outline-none hover:shadow-4xl ease-in transition-shadow">
-          Copy link
-        </button>
-      </div>
-      <div className="mt-4">
-        <h1 className="text-3xl font-bold text-indigo-400 italic">Price</h1>
-        <div>
-          <ReactSlider
-            defaultValue={[min, max]}
-            trackClassName="tracker"
-            className="slider"
-            thumbClassName="thumb"
-            min={0}
-            max={100}
-            minDistance={1}
-            step={1}
-            withTracks={true}
-            pearling={true}
-            renderThumb={(
-              props: JSX.IntrinsicAttributes &
-                React.ClassAttributes<HTMLDivElement> &
-                React.HTMLAttributes<HTMLDivElement>
-            ) => {
-              return <div {...props} className="thumb"></div>;
-            }}
-            renderTrack={(
-              props: JSX.IntrinsicAttributes &
-                React.ClassAttributes<HTMLDivElement> &
-                React.HTMLAttributes<HTMLDivElement>
-            ) => {
-              return <div {...props} className="tracker"></div>;
-            }}
-            onChange={([min, max]: number[]) => {
-              setMin(min);
-              setMax(max);
-            }}
-          />
-        </div>
-      </div>
-      <div className="flex justify-between mt-4">
-        <span className="text-indigo-400 font-medium">Min: {min}</span>
-        <span className="text-indigo-400 font-medium">Max: {max}</span>
-      </div>
-      <div className="mt-4">
-        <h1 className="text-3xl font-bold text-indigo-400 italic">Category</h1>
-        <div className="categories">
-          {arr.map((item) => {
-            return (
-              <div className="flex justify-between px-2">
-                <div>
-                  <input
-                    type="checkbox"
-                    name="checkbox-input"
-                    className="mt-[7px] custom-checkbox"
-                  ></input>
-                  <label></label>
-                  <span className="ml-2 text-indigo-400 font-medium">
-                    {item}
-                  </span>
-                </div>
-                <span className="italic text-indigo-300">2/2</span>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-      <div className="mt-4">
-        <h1 className="text-3xl font-bold text-indigo-400 italic">Brand</h1>
-        <div className="categories">
-          {arr.map((item) => {
-            return (
-              <div className="flex justify-between px-2">
-                <div>
-                  <input
-                    type="checkbox"
-                    name="checkbox-input"
-                    className="mt-[7px] custom-checkbox"
-                  ></input>
-                  <label></label>
-                  <span className="ml-2 text-indigo-400 font-medium">
-                    {item}
-                  </span>
-                </div>
-                <span className="italic text-indigo-300">2/2</span>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-      <div className="mt-4">
-        <h1 className="text-3xl font-bold text-indigo-400 italic">Stock</h1>
-        <div>
-          <ReactSlider
-            defaultValue={[min, max]}
-            trackClassName="tracker"
-            className="slider"
-            thumbClassName="thumb"
-            min={0}
-            max={100}
-            minDistance={1}
-            step={1}
-            withTracks={true}
-            pearling={true}
-            renderThumb={(
-              props: JSX.IntrinsicAttributes &
-                React.ClassAttributes<HTMLDivElement> &
-                React.HTMLAttributes<HTMLDivElement>
-            ) => {
-              return <div {...props} className="thumb"></div>;
-            }}
-            renderTrack={(
-              props: JSX.IntrinsicAttributes &
-                React.ClassAttributes<HTMLDivElement> &
-                React.HTMLAttributes<HTMLDivElement>
-            ) => {
-              return <div {...props} className="tracker"></div>;
-            }}
-            onChange={([min, max]: number[]) => {
-              setMin(min);
-              setMax(max);
-            }}
-          />
-        </div>
-      </div>
-      <div className="flex justify-between mt-4">
-        <span className="text-indigo-400 font-medium">Min: {min}</span>
-        <span className="text-indigo-400 font-medium">Max: {max}</span>
-      </div>
+      <CopyNReset />
+      <DoubleSlider
+        propsMin={minPrice.price}
+        propsMax={maxPrice.price}
+        name={"Price"}
+      />
+      <Categories
+        set={categories}
+        name={"Category"}
+        amount={categoriesAmounts}
+      />
+      <Categories set={brands} name={"Brand"} amount={brandsAmounts} />
+      <DoubleSlider
+        propsMin={minStock.stock}
+        propsMax={maxStock.stock}
+        name={"Stock"}
+      />
     </div>
   );
 }
